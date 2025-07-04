@@ -1,0 +1,200 @@
+body {
+    background: rgb(246, 245, 247);
+}
+
+/* Hero Section */
+.about-hero {
+    background: linear-gradient(rgba(5,5,50,0.8), rgba(5,5,50,0.7)), url('/images/Cultural\ Immersion\ -\ Immersive\ Travel\,\ Tips\ &\ More___.jpeg') center/cover no-repeat;
+    color: white;
+    padding: 140px 0 60px 0;
+    text-align: center;
+    margin-bottom: 0;
+}
+.about-hero-content h2 {
+    font-size: 50px;
+    font-weight: 800;
+    margin-bottom: 20px;
+}
+.about-hero-content h2 span {
+    color: white;
+    border-radius: 50px;
+    padding: 5px 15px;
+    font-size: 50px;
+    font-weight: 800;
+}
+.about-hero-content p {
+    font-size: 20px;
+    max-width: 700px;
+    margin: 0 auto;
+    letter-spacing: 1px;
+}
+
+/* Overview Section */
+.about-overview {
+    max-width: 900px;
+    margin: 60px auto 40px auto;
+    text-align: center;
+    background: white;
+    border-radius: 20px;
+    padding: 40px 30px;
+    box-shadow: 0 4px 24px rgba(5, 5, 50, 0.07);
+}
+.about-overview h3 {
+    font-size: 50px;
+    color: rgb(5, 5, 50);
+    margin-bottom: 18px;
+    font-weight: 500;
+}
+.about-overview p {
+    font-size: 20px;
+    color: grey;
+}
+
+/* Mission/Vision Section */
+.about-mission {
+    background: rgb(5, 5, 50);
+    color: white;
+    padding: 60px 0;
+}
+.about-mission-content {
+    display: flex;
+    justify-content: center;
+    gap: 60px;
+    max-width: 1000px;
+    margin: 0 auto;
+    flex-wrap: wrap;
+}
+.about-mission-content > div {
+    flex: 1 1 300px;
+    background: rgba(255,255,255,0.04);
+    border-radius: 14px;
+    padding: 32px 20px;
+    margin: 10px;
+    min-width: 270px;
+}
+.about-mission-content h3 {
+    color: white;
+    font-weight: 800;
+    margin-bottom: 12px;
+    font-size: 25px;
+}
+.about-mission-content p {
+    font-size: 20px;
+}
+
+/* Team Section */
+.about-team {
+    max-width: 1100px;
+    margin: 60px auto 40px auto;
+    text-align: center;
+}
+.about-team h3 {
+    font-size: 36px;
+    color: rgb(5, 5, 50);
+    margin-bottom: 30px;
+    font-size: 50px;
+    font-weight: 500;
+}
+.team-members {
+    display: flex;
+    justify-content: center;
+    gap: 50px;
+    flex-wrap: wrap;
+}
+.team-member {
+    background: white;
+    border-radius: 14px;
+    box-shadow: 0 4px 24px rgba(5, 5, 50, 0.09);
+    padding: 28px 18px;
+    width: 220px;
+    margin: 10px 0;
+    text-align: center;
+}
+.team-member img {
+    width: 110px;
+    height: 110px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-bottom: 14px;
+    border: 2px solid rgb(5, 5, 50);
+}
+.team-member h4 {
+    font-size: 20px;
+    color: rgb(5, 5, 50);
+    margin-bottom: 4px;
+}
+.team-member p {
+    font-size: 16px;
+    color: grey;
+}
+
+/* Call to Action Section */
+.about-cta {
+    background: linear-gradient(90deg, rgb(5, 5, 50) 70%, rgb(2, 2, 32) 100%);
+    color: white;
+    text-align: center;
+    padding: 50px 20px 60px 20px;
+    margin: 60px 0 0 0;
+}
+.about-cta h3 {
+    font-size: 50px;
+    font-weight: 500;
+    margin-bottom: 18px;
+}
+.about-cta p {
+    font-size: 20px;
+    margin-bottom: 30px;
+}
+.about-cta .btn2 {
+    background: white;
+    border: none;
+    color: rgb(5, 5, 50);
+    font-weight: 800;
+    border: 2px solid white;
+    padding: 10px 40px;
+    border-radius: 10px;
+    font-size: 20px;
+    transition: background 0.5s;
+}
+.about-cta .btn2 a {
+    text-decoration: none;
+    color: rgb(5, 5, 50);
+}
+.about-cta .btn2:hover {
+    background: rgb(5, 5, 50);
+    color: white;
+}
+.about-cta .btn2:hover a {
+    color: white;
+}
+
+/* Responsive */
+@media (max-width: 980px) {
+    .about-mission-content, .team-members {
+        flex-direction: column;
+        align-items: center;
+        gap: 30px;
+    }
+    .about-mission-content > div, .team-member {
+        width: 90%;
+        min-width: 0;
+    }
+}
+@media (max-width: 700px) {
+    .about-hero-content h2 {
+        font-size: 36px;
+    }
+    .about-overview h3,
+    .about-team h3 {
+        font-size: 24px;
+    }
+    .about-cta h3 {
+        font-size: 22px;
+    }
+    .about-hero-content p,
+    .about-overview p,
+    .about-mission-content p,
+    .about-cta p {
+        font-size: 16px;
+    }
+}

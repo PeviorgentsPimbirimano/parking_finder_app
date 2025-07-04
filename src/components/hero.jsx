@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
 const Hero = () => {
   const [login, setLogin] = useState({ username: "", password: "" });
@@ -9,6 +10,7 @@ const Hero = () => {
 
   return (
     <section id="hero">
+      <div className="hero-overlay"></div>
       <video
         className="hero-vid"
         src="/videos/5992516-uhd_3840_2160_30fps.mp4"
@@ -22,13 +24,13 @@ const Hero = () => {
           Always find the <span>perfect spot</span>
         </h3>
         <div className="msg">
-          <p>Lorem ipsum dolor sit amet.</p>
-          <p>Lorem ipsum dolor sit amet.</p>
-          <p>Lorem ipsum dolor sit amet.</p>
+          <p><i class="fa-solid fa-hand-holding-dollar"></i>Best price guarantee</p>
+          <p><i class="fa-solid fa-car"></i>Trusted by 13m+ drivers</p>
+          <p><i class="fa-solid fa-square-parking"></i>100k+ reservable spaces</p>
         </div>
-        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit.</p>
+        <p>Discover thousands of convenient parking spots right where you need them. Join over 13 million drivers and experience affordable, hassle-free parking.</p>
         <button className="btn2">
-          <a href="#">Get Started</a>
+          <Link to="/signup">Get Started</Link>
         </button>
       </div>
 
@@ -60,7 +62,7 @@ const Hero = () => {
             </div>
           </div>
           <p className="forgot">
-            Forgot Password? <a href="#">Click here</a>
+            Forgot Password? <Link to="/signup">Click here</Link>
           </p>
         </div>
       </div>

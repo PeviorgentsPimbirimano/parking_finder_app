@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const Footer = () => (
   <section id="footer">
@@ -50,18 +51,18 @@ const Footer = () => (
         0774947792
       </p>
       <div className="social-icons">
-        <a href="https://facebook.com/">
+        <Link to="https://facebook.com/">
           <i className="fab fa-facebook"></i>
-        </a>
-        <a href="">
+        </Link>
+        <Link to=" ">
           <i className="fab fa-twitter-square"></i>
-        </a>
-        <a href="">
+        </Link>
+        <Link to=" ">
           <i className="fab fa-instagram"></i>
-        </a>
-        <a href="">
+        </Link>
+        <Link to=" ">
           <i className="fab fa-linkedin"></i>
-        </a>
+        </Link>
       </div>
       <br />
     </div>

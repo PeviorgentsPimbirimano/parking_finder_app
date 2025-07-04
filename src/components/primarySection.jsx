@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const PrimarySection = () => (
   <section id="primary">
@@ -15,7 +16,7 @@ const PrimarySection = () => (
             Praesentium maxime sequi numquam.
           </p>
           <button className="btn2">
-            <a href="#">Get Started</a>
+            <Link to="/Signup">Get Started</Link>
           </button>
         </div>
       </div>
@@ -30,7 +31,7 @@ const PrimarySection = () => (
             Praesentium maxime sequi numquam.
           </p>
           <button className="btn2">
-            <a href="#">Get Started</a>
+            <Link to="/Signup">Get Started</Link>
           </button>
         </div>
       </div>

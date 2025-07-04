@@ -1,0 +1,181 @@
+body {
+    background: rgb(246, 245, 247);
+}
+
+/* Hero Section */
+.owner-hero {
+    background: linear-gradient(rgba(5,5,50,0.8), rgba(5,5,50,0.7)), url('/images/parking-hero.jpeg') center/cover no-repeat;
+    color: white;
+    padding: 140px 0 60px 0;
+    text-align: center;
+}
+.owner-hero-content h2 {
+    font-size: 50px;
+    font-weight: 800;
+    margin-bottom: 20px;
+}
+.owner-hero-content p {
+    font-size: 20px;
+    max-width: 500px;
+    margin: 0 auto;
+    letter-spacing: 1px;
+}
+
+/* Benefits Section */
+.owner-benefits {
+    max-width: 1000px;
+    margin: 50px auto 0 auto;
+    text-align: center;
+    background: white;
+    border-radius: 20px;
+    padding: 40px 30px;
+    box-shadow: 0 4px 24px rgba(5, 5, 50, 0.07);
+}
+.owner-benefits h3 {
+    font-size: 50px;
+    color: rgb(5, 5, 50);
+    margin-bottom: 30px;
+    font-weight: 500;
+}
+.benefit-list {
+    display: flex;
+    justify-content: center;
+    gap: 60px;
+    flex-wrap: wrap;
+}
+.benefit-list > div {
+    flex: 1 1 250px;
+    padding: 20px;
+}
+.benefit-list i {
+    font-size: 42px;
+    margin-bottom: 16px;
+    color: rgb(5, 5, 50);
+    background: #f6f5f7;
+    border-radius: 50%;
+    padding: 14px;
+}
+.benefit-list h4 {
+    font-size: 24px;
+    margin: 12px 0 8px 0;
+    color: rgb(5, 5, 50);
+}
+.benefit-list p {
+    font-size: 18px;
+    color: grey;
+}
+
+/* Listing Form Section */
+.owner-form-section {
+    background: rgb(5, 5, 50);
+    color: white;
+    padding: 60px 0;
+    margin: 50px 0;
+    text-align: center;
+}
+.owner-form-section h3 {
+    font-size: 50px;
+    margin-bottom: 34px;
+    font-weight: 500;
+}
+.owner-form {
+    max-width: 700px;
+    margin: 0 auto;
+    background: white;
+    color: rgb(5, 5, 50);
+    border-radius: 20px;
+    padding: 40px 30px;
+    text-align: left;
+    box-shadow: 0 4px 24px rgba(5, 5, 50, 0.09);
+}
+.form-row {
+    display: flex;
+    gap: 30px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+}
+.form-group {
+    flex: 1 1 220px;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+}
+.form-group label {
+    font-size: 17px;
+    font-weight: 700;
+    margin-bottom: 7px;
+    color: rgb(5, 5, 50);
+}
+.form-group input,
+.form-group select,
+.form-group textarea {
+    padding: 8px 12px;
+    border: 1.5px solid #ccc;
+    border-radius: 9px;
+    font-size: 16px;
+    background: #f6f5f7;
+    color: rgb(5, 5, 50);
+    transition: border 0.2s;
+}
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    border: 1.5px solid rgb(5, 5, 50);
+    outline: none;
+}
+.owner-form button.btn2 {
+    transition: background 0.5s, color 0.3s;
+}
+.owner-form button.btn2:hover {
+    background: white;
+    color: rgb(5, 5, 50);
+    border: 2px solid rgb(5, 5, 50);
+}
+
+/* CTA Section */
+.owner-cta {
+    background: linear-gradient(90deg, rgb(5, 5, 50) 70%, rgb(2, 2, 32) 100%);
+    color: white;
+    text-align: center;
+    padding: 40px 14px 50px 14px;
+    margin: 0 0 50px 0;
+    border-radius: 0 0 14px 14px;
+}
+.owner-cta h3 {
+    font-size: 35px;
+    margin-bottom: 12px;
+}
+.owner-cta p {
+    font-size: 20px;
+    margin-bottom: 0;
+}
+.owner-cta a {
+    color: #ffa500;
+    text-decoration: underline;
+}
+
+/* Responsive */
+@media (max-width: 980px) {
+    .benefit-list, .form-row {
+        flex-direction: column;
+        gap: 24px;
+    }
+    .owner-form {
+        padding: 32px 12px;
+    }
+}
+@media (max-width: 700px) {
+    .owner-hero-content h2 {
+        font-size: 28px;
+    }
+    .owner-benefits h3,
+    .owner-form-section h3 {
+        font-size: 22px;
+    }
+    .benefit-list h4 {
+        font-size: 18px;
+    }
+    .benefit-list p, .owner-form, .owner-cta p {
+        font-size: 14px;
+    }
+}
