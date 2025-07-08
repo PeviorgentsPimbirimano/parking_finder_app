@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import Header from "../components/Header";
 import Footer from "../components/Footer";
 import "../css/Signup.css";
 
@@ -10,10 +9,15 @@ export default function Signup() {
     email: "",
     password: "",
     confirm: "",
+    role: "driver",
   });
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleRoleChange = (e) => {
+    setForm({ ...form, role: e.target.value });
   };
 
   const handleSubmit = (e) => {
@@ -22,12 +26,15 @@ export default function Signup() {
       alert("Passwords do not match!");
       return;
     }
-    alert("Thank you for signing up! (Demo: No real registration)");
+    alert(
+      `Thank you for signing up as a ${form.role === "owner" ? "Space Owner" : "Driver"}! (Demo: No real registration)`
+    );
     setForm({
       username: "",
       email: "",
       password: "",
       confirm: "",
+      role: "driver",
     });
   };
 
@@ -37,20 +44,24 @@ export default function Signup() {
 
   return (
     <>
-    <header id="header">
-        <div class="links">
-            <div class="logo">
-                <h1>Spot <span>On</span></h1>
-            </div>
-            <nav>
-                <Link to="/">Home</Link>
-                <Link to="/About">About Us</Link>
-                <Link to="/Owner">Rent out your space</Link>
-                <Link to="/Help">Help</Link>
-                <Link to="/Login"><span>Login</span></Link>
-            </nav>
+      <header id="header">
+        <div className="links">
+          <div className="logo">
+            <h1>
+              Spot <span>On</span>
+            </h1>
+          </div>
+          <nav>
+            <Link to="/">Home</Link>
+            <Link to="/About">About Us</Link>
+            <Link to="/Owner">Rent out your space</Link>
+            <Link to="/Help">Help</Link>
+            <Link to="/Login">
+              <span>Login</span>
+            </Link>
+          </nav>
         </div>
-    </header>
+      </header>
       <main>
         <section className="signup-section">
           <div className="signup-box">
@@ -62,7 +73,7 @@ export default function Signup() {
               onClick={handleGoogleSignup}
             >
               <img
-                src="/images/google-icon.svg"
+                src="src/assets/Google-icon.jpeg"
                 alt="Google icon"
                 className="google-icon"
               />
@@ -70,6 +81,30 @@ export default function Signup() {
             </button>
             <div className="or-divider">
               <span>or</span>
+            </div>
+
+            {/* Role selection */}
+            <div className="role-select">
+              <label>
+                <input
+                  type="radio"
+                  name="role"
+                  value="driver"
+                  checked={form.role === "driver"}
+                  onChange={handleRoleChange}
+                />
+                Driver
+              </label>
+              <label>
+                <input
+                  type="radio"
+                  name="role"
+                  value="owner"
+                  checked={form.role === "owner"}
+                  onChange={handleRoleChange}
+                />
+                Space Owner
+              </label>
             </div>
 
             <form className="signup-form" onSubmit={handleSubmit}>

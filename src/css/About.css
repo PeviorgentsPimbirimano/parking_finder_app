@@ -11,16 +11,16 @@ body {
     margin-bottom: 0;
 }
 .about-hero-content h2 {
-    font-size: 50px;
-    font-weight: 800;
+    font-size: 70px;
+    font-weight: 700;
     margin-bottom: 20px;
 }
 .about-hero-content h2 span {
     color: white;
     border-radius: 50px;
     padding: 5px 15px;
-    font-size: 50px;
-    font-weight: 800;
+    font-size: 70px;
+    font-weight: 700;
 }
 .about-hero-content p {
     font-size: 20px;
@@ -74,9 +74,9 @@ body {
 }
 .about-mission-content h3 {
     color: white;
-    font-weight: 800;
     margin-bottom: 12px;
-    font-size: 25px;
+    font-weight: 500;
+    font-size: 50px;
 }
 .about-mission-content p {
     font-size: 20px;

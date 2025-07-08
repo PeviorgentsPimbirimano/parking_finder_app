@@ -6,6 +6,7 @@ import Owner from './pages/Owner';
 import Help from './pages/Help';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
+import DriverDashboard from './dashboard/DriverDashboard';
 
 export default function App() {
   return (
@@ -18,6 +19,7 @@ export default function App() {
         <Route path="/Help" element={<Help />} />
         <Route path="/Login" element={<Login />} />
         <Route path="/Signup" element={<Signup />} />
+        <Route path="/dashboard/driver" element={<DriverDashboard />} />
       </Routes>
     </BrowserRouter>
     </>

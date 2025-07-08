@@ -41,7 +41,11 @@ const Footer = () => (
       </div>
     </div>
     <div className="right-foot">
-      <h1>SpotOn</h1>
+      <div className="logo">
+        <h1>
+          Spot <span>On</span>
+        </h1>
+      </div>
       <p>
         <i className="fas fa-paper-plane"></i>
         peviorgentspimbirimano@gmail.com

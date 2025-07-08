@@ -30,7 +30,7 @@ const Hero = () => {
         </div>
         <p>Discover thousands of convenient parking spots right where you need them. Join over 13 million drivers and experience affordable, hassle-free parking.</p>
         <button className="btn2">
-          <Link to="/signup">Get Started</Link>
+          <Link to="/Signup">Get Started</Link>
         </button>
       </div>
 

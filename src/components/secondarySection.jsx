@@ -90,15 +90,11 @@ const SecondarySection = () => {
   return (
     <section id="secondary">
       <h4>Top Locations</h4>
+      <div className="center-paragraph">
       <p>
-        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nobis,
-        cupiditate, vitae ipsa voluptates consequatur saepe esse in deleniti,
-        debitis totam molestiae obcaecati! Laboriosam architecto fugiat odit?
-        Eaque possimus reprehenderit similique repellendus laboriosam. Natus
-        sed repellat dolore eaque soluta nulla commodi quasi doloremque
-        laborum expedita, placeat asperiores tempore voluptatem, fugit
-        deleniti!
+        Discover Zimbabwe’s most sought-after destinations, bustling cities, key airports, and trusted hospitals. Whether you’re exploring natural wonders, traveling for business, or ensuring peace of mind, find the top locations you need—all in one place!
       </p>
+      </div>
       <div className="tab-titles">
         {tabTitles.map((title) => (
           <p
@@ -110,26 +106,28 @@ const SecondarySection = () => {
           </p>
         ))}
       </div>
-      {tabTitles.map((title) => (
-        <div
-          key={title}
-          className={`tab-contents${activeTab === title ? " active-tab" : ""}`}
-          style={{ display: activeTab === title ? "block" : "none" }}
-          id={title}
-        >
-          <div className="info">
-            {tabData[title].map((group, i) => (
-              <div key={i}>
-                <ul>
-                  {group.map((item, j) => (
-                    <li key={j}>{item}</li>
-                  ))}
-                </ul>
-              </div>
-            ))}
+      <div className="tab-contents-wrapper">
+        {tabTitles.map((title) => (
+          <div
+            key={title}
+            className={`tab-contents${activeTab === title ? " active-tab" : ""}`}
+            style={{ display: activeTab === title ? "block" : "none" }}
+            id={title}
+          >
+            <div className="info">
+              {tabData[title].map((group, i) => (
+                <div key={i}>
+                  <ul>
+                    {group.map((item, j) => (
+                      <li key={j}>{item}</li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
-      ))}
+        ))}
+      </div>
     </section>
   );
 };

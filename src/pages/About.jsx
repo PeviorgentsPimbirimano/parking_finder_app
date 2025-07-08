@@ -69,12 +69,12 @@ export default function About() {
             </div>
             <div className="team-member">
               <img src={team2} alt="Team Member 2" />
-              <h4>Jane Doe</h4>
+              <h4>Chiyedza Smith</h4>
               <p>Lead Developer</p>
             </div>
             <div className="team-member">
               <img src={team3} alt="Team Member 3" />
-              <h4>John Smith</h4>
+              <h4>Khluivert Pimbirimano</h4>
               <p>Operations Manager</p>
             </div>
           </div>

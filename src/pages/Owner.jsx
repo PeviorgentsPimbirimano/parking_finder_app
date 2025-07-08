@@ -86,6 +86,10 @@ export default function Owner() {
                 <input type="number" id="price" name="price" min="0" required />
               </div>
               <div className="form-group">
+                <label htmlFor="image">Upload Image</label>
+                <input type="file" id="image" name="image" accept="image/*" />
+              </div>
+              <div className="form-group">
                 <label htmlFor="description">Description</label>
                 <textarea id="description" name="description" rows="2" placeholder="Describe your parking space"></textarea>
               </div>

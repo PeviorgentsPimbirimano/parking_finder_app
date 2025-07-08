@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import Header from "../components/Header";
 import Footer from "../components/Footer";
 import "../css/Login.css";
 
@@ -9,6 +8,10 @@ export default function Login() {
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
+  };
+  
+    const handleGoogleSignup = () => {
+    alert("Google Sign Up coming soon!");
   };
 
   const handleSubmit = (e) => {
@@ -38,6 +41,21 @@ export default function Login() {
           <div className="login-box">
             <h2>Welcome Back!</h2>
             <form className="login-form" onSubmit={handleSubmit}>
+            <button
+              className="google-btn"
+              type="button"
+              onClick={handleGoogleSignup}
+            >
+              <img
+                src="src\assets\Google-icon.jpeg"
+                alt="Google icon"
+                className="google-icon"
+              />
+              Sign In with Google
+            </button>
+            <div className="or-divider">
+              <span>or</span>
+            </div>
               <div className="form-group">
                 <label htmlFor="username">
                   <i className="fa-solid fa-user"></i> Username

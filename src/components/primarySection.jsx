@@ -12,8 +12,7 @@ const PrimarySection = () => (
         />
         <div className="layer">
           <p>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-            Praesentium maxime sequi numquam.
+            Easily list your unused parking spot and start earning extra income. Connect with drivers looking for convenient parking in your area.
           </p>
           <button className="btn2">
             <Link to="/Signup">Get Started</Link>
@@ -27,8 +26,7 @@ const PrimarySection = () => (
         <img src="/images/download (10).jpeg" alt="Car Park Management" />
         <div className="layer">
           <p>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-            Praesentium maxime sequi numquam.
+            Simplify your parking operations with our smart management tools. Track bookings, monitor availability, and maximize your parking facility's efficiency.
           </p>
           <button className="btn2">
             <Link to="/Signup">Get Started</Link>

@@ -32,13 +32,13 @@ body {
 .google-btn {
     width: 100%;
     border-radius: 10px;
-    border: 1.5px solid grey;
+    border: 1.5px solid gray;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 10px;
     background: white;
-    color:grey;
+    color:rgb(5, 5, 50);
     font-size: 18px;
     font-weight: 600;
     padding: 10px 0;
@@ -47,24 +47,25 @@ body {
     transition: background 0.2s, border 0.2s;
 }
 .google-btn:hover {
-    background: #f6f5f7;
-    border: 1.5px solid #4285f4;
+    background: gray;
+    border: 1.5px solid rgb(5, 5, 50);
 }
 .google-icon {
     width: 22px;
     height: 22px;
+    border-radius: 21px;
 }
 .or-divider {
     display: flex;
     align-items: center;
     margin: 16px 0 18px 0;
-    color: grey;
+    color: rgb(5, 5, 50);
     font-size: 18px;
 }
 .or-divider:before, .or-divider:after {
     content: "";
     flex: 1;
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid rgb(5, 5, 50);
     margin: 0 8px;
 }
 /* End Google Button */
@@ -83,7 +84,7 @@ body {
 .signup-form input {
     width: 100%;
     padding: 10px 12px;
-    border: 1.5px solid grey;
+    border: 1.5px solid gray;
     border-radius: 9px;
     font-size: 18px;
     background: #f6f5f7;
@@ -127,4 +128,26 @@ body {
     .signup-box h2 {
         font-size: 22px;
     }
+}
+/* ...your existing CSS... */
+
+.role-select {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  margin-bottom: 26px;
+}
+.role-select label {
+  font-size: 18px;
+  color: rgb(5, 5, 50);
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.role-select input[type="radio"] {
+  accent-color: rgb(5, 5, 50);
+  width: 18px;
+  height: 18px;
 }
