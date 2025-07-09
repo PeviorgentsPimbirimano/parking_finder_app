@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Footer from "../components/Footer";
-import "../css/Signup.css";
+import '../css/Signup.css';
 
 export default function Signup() {
   const [form, setForm] = useState({
@@ -11,6 +11,8 @@ export default function Signup() {
     confirm: "",
     role: "driver",
   });
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -20,22 +22,43 @@ export default function Signup() {
     setForm({ ...form, role: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    
     if (form.password !== form.confirm) {
       alert("Passwords do not match!");
       return;
     }
-    alert(
-      `Thank you for signing up as a ${form.role === "owner" ? "Space Owner" : "Driver"}! (Demo: No real registration)`
-    );
-    setForm({
-      username: "",
-      email: "",
-      password: "",
-      confirm: "",
-      role: "driver",
-    });
+
+    if (form.password.length < 6) {
+      alert("Password must be at least 6 characters long!");
+      return;
+    }
+
+    setIsLoading(true);
+
+    // Simulate API call delay
+    await new Promise(resolve => setTimeout(resolve, 1500));
+
+    // Store user session
+    localStorage.setItem('userSession', JSON.stringify({
+      username: form.email,
+      role: form.role,
+      name: form.username,
+      loginTime: new Date().toISOString()
+    }));
+
+    // Show success message
+    alert(`Welcome ${form.username}! Your ${form.role === "owner" ? "Space Owner" : "Driver"} account has been created successfully!`);
+
+    // Redirect based on role
+    if (form.role === 'driver') {
+      navigate('/dashboard/driver');
+    } else if (form.role === 'owner') {
+      navigate('/dashboard/owner');
+    }
+
+    setIsLoading(false);
   };
 
   const handleGoogleSignup = () => {
@@ -53,10 +76,10 @@ export default function Signup() {
           </div>
           <nav>
             <Link to="/">Home</Link>
-            <Link to="/About">About Us</Link>
-            <Link to="/Owner">Rent out your space</Link>
-            <Link to="/Help">Help</Link>
-            <Link to="/Login">
+            <Link to="/about">About Us</Link>
+            <Link to="/owner">Rent out your space</Link>
+            <Link to="/help">Help</Link>
+            <Link to="/login">
               <span>Login</span>
             </Link>
           </nav>
@@ -110,16 +133,18 @@ export default function Signup() {
             <form className="signup-form" onSubmit={handleSubmit}>
               <div className="form-group">
                 <label htmlFor="signup-username">
-                  <i className="fa-solid fa-user"></i> Username
+                  <i className="fa-solid fa-user"></i> Full Name
                 </label>
                 <input
                   type="text"
                   id="signup-username"
                   name="username"
                   required
-                  autoComplete="username"
+                  autoComplete="name"
                   value={form.username}
                   onChange={handleChange}
+                  placeholder="Enter your full name"
+                  disabled={isLoading}
                 />
               </div>
               <div className="form-group">
@@ -134,6 +159,8 @@ export default function Signup() {
                   autoComplete="email"
                   value={form.email}
                   onChange={handleChange}
+                  placeholder="Enter your email address"
+                  disabled={isLoading}
                 />
               </div>
               <div className="form-group">
@@ -148,6 +175,8 @@ export default function Signup() {
                   autoComplete="new-password"
                   value={form.password}
                   onChange={handleChange}
+                  placeholder="Create a password (min 6 characters)"
+                  disabled={isLoading}
                 />
               </div>
               <div className="form-group">
@@ -162,14 +191,16 @@ export default function Signup() {
                   autoComplete="new-password"
                   value={form.confirm}
                   onChange={handleChange}
+                  placeholder="Confirm your password"
+                  disabled={isLoading}
                 />
               </div>
-              <button type="submit" className="btn2">
-                Sign Up
+              <button type="submit" className="btn2" disabled={isLoading}>
+                {isLoading ? 'Creating Account...' : 'Sign Up'}
               </button>
             </form>
             <p className="signup-links">
-              Already have an account? <Link to="/Login">Sign in</Link>
+              Already have an account? <Link to="/login">Sign in</Link>
             </p>
           </div>
         </section>

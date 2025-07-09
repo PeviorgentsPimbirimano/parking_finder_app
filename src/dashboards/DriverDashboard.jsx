@@ -14,6 +14,7 @@ import {
   History,
   Heart
 } from 'lucide-react';
+import DashboardLayout from './DashboardLayout';
 import '../css/Dashboard.css';
 
 const DriverDashboard = () => {
@@ -249,11 +250,89 @@ const DriverDashboard = () => {
             <label htmlFor="phone">Phone</label>
             <input type="tel" id="phone" defaultValue="+1 (555) 123-4567" />
           </div>
-          <div className="form-group">
-            <label htmlFor="vehicle">Vehicle Information</label>
-            <input type="text" id="vehicle" defaultValue="Toyota Camry - ABC123" />
-          </div>
           <button className="save-btn">Save Changes</button>
+        </div>
+      </div>
+    </div>
+  );
+
+  const renderPaymentsTab = () => (
+    <div className="tab-content">
+      <div className="payments-section">
+        <h2>Payment History</h2>
+        <div className="payments-list">
+          <div className="payment-card">
+            <div className="payment-info">
+              <h4>Downtown Plaza Parking</h4>
+              <p className="payment-date">January 15, 2024</p>
+              <p className="payment-method">Credit Card ****1234</p>
+            </div>
+            <div className="payment-details">
+              <div className="payment-amount">$15.00</div>
+              <div className="status completed">Successful</div>
+            </div>
+          </div>
+          <div className="payment-card">
+            <div className="payment-info">
+              <h4>Central Mall Spot</h4>
+              <p className="payment-date">January 12, 2024</p>
+              <p className="payment-method">EcoCash</p>
+            </div>
+            <div className="payment-details">
+              <div className="payment-amount">$12.00</div>
+              <div className="status completed">Successful</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  const renderVehiclesTab = () => (
+    <div className="tab-content">
+      <div className="vehicles-section">
+        <div className="vehicles-header">
+          <h2>My Vehicles</h2>
+          <button className="add-vehicle-btn">
+            <Plus size={20} />
+            Add Vehicle
+          </button>
+        </div>
+        <div className="vehicles-list">
+          <div className="vehicle-card">
+            <div className="vehicle-info">
+              <h4>Toyota Camry</h4>
+              <p className="plate-number">ABC-123</p>
+              <p className="vehicle-color">Silver</p>
+            </div>
+            <div className="vehicle-actions">
+              <button className="btn-secondary">
+                <Edit size={16} />
+                Edit
+              </button>
+              <button className="btn-danger">
+                <Trash2 size={16} />
+                Remove
+              </button>
+            </div>
+          </div>
+          <div className="vehicle-card">
+            <div className="vehicle-info">
+              <h4>Honda Civic</h4>
+              <p className="plate-number">XYZ-789</p>
+              <p className="vehicle-color">Blue</p>
+            </div>
+            <div className="vehicle-actions">
+              <button className="btn-secondary">
+                <Edit size={16} />
+                Edit
+              </button>
+              <button className="btn-danger">
+                <Trash2 size={16} />
+                Remove
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -281,7 +360,7 @@ const DriverDashboard = () => {
             onClick={() => setActiveTab('search')}
           >
             <Search size={20} />
-            Search Parking
+            Find Parking
           </button>
           <button 
             className={`tab-btn ${activeTab === 'bookings' ? 'active' : ''}`}
@@ -289,6 +368,20 @@ const DriverDashboard = () => {
           >
             <Calendar size={20} />
             My Bookings
+          </button>
+          <button 
+            className={`tab-btn ${activeTab === 'payments' ? 'active' : ''}`}
+            onClick={() => setActiveTab('payments')}
+          >
+            <CreditCard size={20} />
+            Payments
+          </button>
+          <button 
+            className={`tab-btn ${activeTab === 'vehicles' ? 'active' : ''}`}
+            onClick={() => setActiveTab('vehicles')}
+          >
+            <Car size={20} />
+            My Vehicles
           </button>
           <button 
             className={`tab-btn ${activeTab === 'profile' ? 'active' : ''}`}
@@ -302,6 +395,8 @@ const DriverDashboard = () => {
         <div className="dashboard-content">
           {activeTab === 'search' && renderSearchTab()}
           {activeTab === 'bookings' && renderBookingsTab()}
+          {activeTab === 'payments' && renderPaymentsTab()}
+          {activeTab === 'vehicles' && renderVehiclesTab()}
           {activeTab === 'profile' && renderProfileTab()}
         </div>
       </div>

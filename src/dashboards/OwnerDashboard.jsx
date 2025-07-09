@@ -14,11 +14,11 @@ import {
   User,
   BarChart3
 } from 'lucide-react';
-import DashboardLayout from '../components/DashboardLayout';
-import '../styles/Dashboard.css';
+import DashboardLayout from './DashboardLayout';
+import '../css/Dashboard.css';
 
 const OwnerDashboard = () => {
-  const [activeTab, setActiveTab] = useState('overview');
+  const [activeTab, setActiveTab] = useState('spaces');
   const [showAddListing, setShowAddListing] = useState(false);
 
   const mockListings = [
@@ -325,6 +325,79 @@ const OwnerDashboard = () => {
     </div>
   );
 
+  const renderEarningsTab = () => (
+    <div className="tab-content">
+      <div className="earnings-section">
+        <h2>Earnings Overview</h2>
+        <div className="earnings-stats">
+          <div className="earning-card">
+            <h3>This Month</h3>
+            <div className="amount">$456</div>
+          </div>
+          <div className="earning-card">
+            <h3>Total Earnings</h3>
+            <div className="amount">$1,196</div>
+          </div>
+          <div className="earning-card">
+            <h3>Pending Payouts</h3>
+            <div className="amount">$89</div>
+          </div>
+        </div>
+        <div className="earnings-history">
+          <h3>Recent Payments</h3>
+          <div className="payment-list">
+            <div className="payment-item">
+              <div className="payment-details">
+                <span className="date">Jan 15, 2024</span>
+                <span className="description">Downtown Plaza Parking - 8 hours</span>
+              </div>
+              <div className="amount">+$120</div>
+            </div>
+            <div className="payment-item">
+              <div className="payment-details">
+                <span className="date">Jan 12, 2024</span>
+                <span className="description">Central Mall Spot - 4 hours</span>
+              </div>
+              <div className="amount">+$48</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  const renderAnalyticsTab = () => (
+    <div className="tab-content">
+      <div className="analytics-section">
+        <h2>Performance Analytics</h2>
+        <div className="analytics-grid">
+          <div className="analytics-card">
+            <h3>Occupancy Rate</h3>
+            <div className="metric">78%</div>
+            <p>Average across all spaces</p>
+          </div>
+          <div className="analytics-card">
+            <h3>Average Booking Duration</h3>
+            <div className="metric">4.2 hrs</div>
+            <p>Per booking session</p>
+          </div>
+          <div className="analytics-card">
+            <h3>Revenue per Space</h3>
+            <div className="metric">$398</div>
+            <p>Monthly average</p>
+          </div>
+        </div>
+        <div className="chart-section">
+          <h3>Monthly Revenue Trend</h3>
+          <div className="chart-placeholder">
+            <BarChart3 size={48} />
+            <p>Revenue chart would go here</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
   return (
     <DashboardLayout userType="owner">
       <div className="dashboard">
@@ -343,18 +416,11 @@ const OwnerDashboard = () => {
 
         <div className="dashboard-tabs">
           <button 
-            className={`tab-btn ${activeTab === 'overview' ? 'active' : ''}`}
-            onClick={() => setActiveTab('overview')}
-          >
-            <BarChart3 size={20} />
-            Overview
-          </button>
-          <button 
-            className={`tab-btn ${activeTab === 'listings' ? 'active' : ''}`}
-            onClick={() => setActiveTab('listings')}
+            className={`tab-btn ${activeTab === 'spaces' ? 'active' : ''}`}
+            onClick={() => setActiveTab('spaces')}
           >
             <MapPin size={20} />
-            My Listings
+            My Spaces
           </button>
           <button 
             className={`tab-btn ${activeTab === 'bookings' ? 'active' : ''}`}
@@ -362,6 +428,20 @@ const OwnerDashboard = () => {
           >
             <Calendar size={20} />
             Bookings
+          </button>
+          <button 
+            className={`tab-btn ${activeTab === 'earnings' ? 'active' : ''}`}
+            onClick={() => setActiveTab('earnings')}
+          >
+            <DollarSign size={20} />
+            Earnings
+          </button>
+          <button 
+            className={`tab-btn ${activeTab === 'analytics' ? 'active' : ''}`}
+            onClick={() => setActiveTab('analytics')}
+          >
+            <BarChart3 size={20} />
+            Analytics
           </button>
           <button 
             className={`tab-btn ${activeTab === 'profile' ? 'active' : ''}`}
@@ -373,9 +453,10 @@ const OwnerDashboard = () => {
         </div>
 
         <div className="dashboard-content">
-          {activeTab === 'overview' && renderOverviewTab()}
-          {activeTab === 'listings' && renderListingsTab()}
+          {activeTab === 'spaces' && renderListingsTab()}
           {activeTab === 'bookings' && renderBookingsTab()}
+          {activeTab === 'earnings' && renderEarningsTab()}
+          {activeTab === 'analytics' && renderAnalyticsTab()}
           {activeTab === 'profile' && renderProfileTab()}
         </div>
       </div>

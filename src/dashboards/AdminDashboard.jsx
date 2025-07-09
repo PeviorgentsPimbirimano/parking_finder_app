@@ -17,13 +17,27 @@ import {
   Calendar,
   Mail,
   Phone,
-  Shield
+  Shield,
+  CreditCard
 } from 'lucide-react';
-import DashboardLayout from '../components/DashboardLayout';
-import '../styles/Dashboard.css';
+import DashboardLayout from './DashboardLayout';
+import '../css/Dashboard.css';
+
+// Admin session check
+const checkAdminSession = () => {
+  const adminSession = localStorage.getItem('adminSession');
+  if (!adminSession) return null;
+  
+  try {
+    return JSON.parse(adminSession);
+  } catch {
+    return null;
+  }
+};
 
 const AdminDashboard = () => {
   const [activeTab, setActiveTab] = useState('overview');
+  const adminSession = checkAdminSession();
 
   const mockUsers = [
     {
@@ -508,6 +522,139 @@ const AdminDashboard = () => {
     </div>
   );
 
+  const renderAdminBookingsTab = () => (
+    <div className="tab-content">
+      <div className="admin-bookings-section">
+        <h2>All Bookings</h2>
+        <div className="bookings-filters">
+          <select className="filter-select">
+            <option>All Status</option>
+            <option>Pending</option>
+            <option>Confirmed</option>
+            <option>Cancelled</option>
+          </select>
+          <select className="filter-select">
+            <option>All Dates</option>
+            <option>Today</option>
+            <option>This Week</option>
+            <option>This Month</option>
+          </select>
+        </div>
+        <div className="admin-bookings-table">
+          <table>
+            <thead>
+              <tr>
+                <th>Booking ID</th>
+                <th>Driver</th>
+                <th>Space</th>
+                <th>Date & Time</th>
+                <th>Status</th>
+                <th>Amount</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>#BK001</td>
+                <td>John Doe</td>
+                <td>Downtown Plaza</td>
+                <td>Jan 15, 09:00-17:00</td>
+                <td><span className="status confirmed">Confirmed</span></td>
+                <td>$120</td>
+                <td>
+                  <button className="btn-icon"><Eye size={16} /></button>
+                </td>
+              </tr>
+              <tr>
+                <td>#BK002</td>
+                <td>Jane Smith</td>
+                <td>Central Mall</td>
+                <td>Jan 14, 14:00-18:00</td>
+                <td><span className="status completed">Completed</span></td>
+                <td>$48</td>
+                <td>
+                  <button className="btn-icon"><Eye size={16} /></button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  );
+
+  const renderAdminPaymentsTab = () => (
+    <div className="tab-content">
+      <div className="admin-payments-section">
+        <h2>Payment Management</h2>
+        <div className="payments-stats">
+          <div className="stat-card">
+            <div className="stat-icon">
+              <DollarSign size={24} />
+            </div>
+            <div className="stat-info">
+              <h3>$12,456</h3>
+              <p>Total Revenue</p>
+            </div>
+          </div>
+          <div className="stat-card">
+            <div className="stat-icon">
+              <CreditCard size={24} />
+            </div>
+            <div className="stat-info">
+              <h3>1,234</h3>
+              <p>Successful Payments</p>
+            </div>
+          </div>
+          <div className="stat-card">
+            <div className="stat-icon">
+              <AlertTriangle size={24} />
+            </div>
+            <div className="stat-info">
+              <h3>23</h3>
+              <p>Failed Payments</p>
+            </div>
+          </div>
+        </div>
+        <div className="payments-table">
+          <table>
+            <thead>
+              <tr>
+                <th>Payment ID</th>
+                <th>Booking</th>
+                <th>User</th>
+                <th>Amount</th>
+                <th>Method</th>
+                <th>Status</th>
+                <th>Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>#PAY001</td>
+                <td>#BK001</td>
+                <td>John Doe</td>
+                <td>$120</td>
+                <td>Credit Card</td>
+                <td><span className="status completed">Successful</span></td>
+                <td>Jan 15, 2024</td>
+              </tr>
+              <tr>
+                <td>#PAY002</td>
+                <td>#BK002</td>
+                <td>Jane Smith</td>
+                <td>$48</td>
+                <td>EcoCash</td>
+                <td><span className="status completed">Successful</span></td>
+                <td>Jan 14, 2024</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  );
+
   return (
     <DashboardLayout userType="admin">
       <div className="dashboard">
@@ -540,11 +687,25 @@ const AdminDashboard = () => {
             Users
           </button>
           <button 
-            className={`tab-btn ${activeTab === 'listings' ? 'active' : ''}`}
-            onClick={() => setActiveTab('listings')}
+            className={`tab-btn ${activeTab === 'spaces' ? 'active' : ''}`}
+            onClick={() => setActiveTab('spaces')}
           >
             <MapPin size={20} />
-            Listings
+            Parking Spaces
+          </button>
+          <button 
+            className={`tab-btn ${activeTab === 'bookings' ? 'active' : ''}`}
+            onClick={() => setActiveTab('bookings')}
+          >
+            <Calendar size={20} />
+            Bookings
+          </button>
+          <button 
+            className={`tab-btn ${activeTab === 'payments' ? 'active' : ''}`}
+            onClick={() => setActiveTab('payments')}
+          >
+            <CreditCard size={20} />
+            Payments
           </button>
           <button 
             className={`tab-btn ${activeTab === 'reports' ? 'active' : ''}`}
@@ -565,7 +726,9 @@ const AdminDashboard = () => {
         <div className="dashboard-content">
           {activeTab === 'overview' && renderOverviewTab()}
           {activeTab === 'users' && renderUsersTab()}
-          {activeTab === 'listings' && renderListingsTab()}
+          {activeTab === 'spaces' && renderListingsTab()}
+          {activeTab === 'bookings' && renderAdminBookingsTab()}
+          {activeTab === 'payments' && renderAdminPaymentsTab()}
           {activeTab === 'reports' && renderReportsTab()}
           {activeTab === 'settings' && renderSettingsTab()}
         </div>
