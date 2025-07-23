@@ -2,55 +2,80 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Footer from "../components/Footer";
 import '../css/Login.css';
+import { supabase } from "../supabaseClient";
+
+const DEMO_USERS = {
+  "driver@test.com": {
+    password: "driver123",
+    role: "driver",
+    name: "Demo Driver"
+  },
+  "owner@test.com": {
+    password: "owner123",
+    role: "owner",
+    name: "Demo Owner"
+  }
+};
 
 export default function Login() {
-  const [form, setForm] = useState({ username: "", password: "" });
+  // FIX: use 'email' for state and logic
+  const [form, setForm] = useState({ email: "", password: "" });
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
-  // Demo credentials for testing
-  const DEMO_USERS = {
-    'driver@test.com': { password: 'driver123', role: 'driver', name: 'John Doe' },
-    'owner@test.com': { password: 'owner123', role: 'owner', name: 'Sarah Johnson' }
-  };
-
-  const handleChange = (e) => {
+  const handleChange = (e) =>
     setForm({ ...form, [e.target.name]: e.target.value });
-  };
-  
-  const handleGoogleSignup = () => {
-    alert("Google Sign Up coming soon!");
+
+  const handleGoogleSignup = async () => {
+    setIsLoading(true);
+    const { error } = await supabase.auth.signInWithOAuth({ provider: 'google' });
+    if (error) alert(error.message);
+    setIsLoading(false);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
 
-    // Simulate API call delay
-    await new Promise(resolve => setTimeout(resolve, 1000));
-
-    // Check if user exists in demo users
-    const user = DEMO_USERS[form.username];
-    
-    if (user && user.password === form.password) {
-      // Store user session
+    // Check demo users first
+    const demoUser = DEMO_USERS[form.email];
+    if (demoUser && demoUser.password === form.password) {
       localStorage.setItem('userSession', JSON.stringify({
-        username: form.username,
-        role: user.role,
-        name: user.name,
+        username: form.email,
+        role: demoUser.role,
+        name: demoUser.name,
         loginTime: new Date().toISOString()
       }));
-
-      // Redirect based on role
-      if (user.role === 'driver') {
+      if (demoUser.role === 'driver') {
         navigate('/dashboard/driver');
-      } else if (user.role === 'owner') {
+      } else if (demoUser.role === 'owner') {
         navigate('/dashboard/owner');
       }
-    } else {
-      alert('Invalid credentials. Try:\nDriver: driver@test.com / driver123\nOwner: owner@test.com / owner123');
+      setIsLoading(false);
+      return;
     }
-    
+
+    // Supabase login
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email: form.email,
+      password: form.password,
+    });
+
+    if (error) {
+      alert(error.message || "Invalid login credentials");
+      setIsLoading(false);
+      return;
+    }
+
+    alert("Login successful!");
+    localStorage.setItem('userSession', JSON.stringify({
+      username: form.email,
+      role: "driver", // Fetch actual role if needed
+      name: data?.user?.user_metadata?.name || form.email,
+      loginTime: new Date().toISOString()
+    }));
+
+    navigate('/dashboard/driver');
     setIsLoading(false);
   };
 
@@ -77,32 +102,33 @@ export default function Login() {
           <div className="login-box">
             <h2>Welcome Back!</h2>
             <form className="login-form" onSubmit={handleSubmit}>
-            <button
-              className="google-btn"
-              type="button"
-              onClick={handleGoogleSignup}
-            >
-              <img
-                src="src\assets\Google-icon.jpeg"
-                alt="Google icon"
-                className="google-icon"
-              />
-              Sign In with Google
-            </button>
+              <button
+                className="google-btn"
+                type="button"
+                onClick={handleGoogleSignup}
+                disabled={isLoading}
+              >
+                <img
+                  src="src/assets/Google-icon.jpeg"
+                  alt="Google icon"
+                  className="google-icon"
+                />
+                Sign In with Google
+              </button>
               <div className="or-divider">
                 <span>or</span>
               </div>
               <div className="form-group">
-                <label htmlFor="username">
+                <label htmlFor="email">
                   <i className="fa-solid fa-user"></i> Email
                 </label>
                 <input
                   type="email"
-                  id="username"
-                  name="username"
+                  id="email"
+                  name="email"
                   required
                   autoComplete="username"
-                  value={form.username}
+                  value={form.email}
                   onChange={handleChange}
                   placeholder="Enter your email"
                   disabled={isLoading}
@@ -125,24 +151,21 @@ export default function Login() {
                 />
               </div>
               <button type="submit" className="btn2" disabled={isLoading}>
-                {isLoading ? 'Signing In...' : 'Sign In'}
+                {isLoading ? "Loading..." : "Login"}
               </button>
             </form>
-            
-            {/* Demo credentials info */}
-            <div style={{ 
-              marginTop: '20px', 
-              padding: '15px', 
-              backgroundColor: '#f8f9fa', 
+            <div style={{
+              marginTop: '20px',
+              padding: '15px',
+              backgroundColor: '#f8f9fa',
               borderRadius: '8px',
               fontSize: '14px',
               textAlign: 'left'
             }}>
-              <strong>Demo Credentials:</strong><br/>
-              <strong>Driver:</strong> driver@test.com / driver123<br/>
+              <strong>Demo Credentials:</strong><br />
+              <strong>Driver:</strong> driver@test.com / driver123<br />
               <strong>Owner:</strong> owner@test.com / owner123
             </div>
-            
             <p className="login-links">
               <a href="#">Forgot Password?</a> |{" "}
               <Link to="/signup">Create Account</Link>

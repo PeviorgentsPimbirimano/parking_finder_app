@@ -2,45 +2,66 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Footer from "../components/Footer";
 import '../css/Signup.css';
+import { supabase } from "../supabaseClient";
 
 export default function Signup() {
-  const [form, setForm] = useState({
-    username: "",
-    email: "",
-    password: "",
-    confirm: "",
-    role: "driver",
-  });
+  const [form, setForm] = useState({ email: "", password: "", confirm: "", username: "", role: "driver" });
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
-  const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
+  const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
-  const handleRoleChange = (e) => {
-    setForm({ ...form, role: e.target.value });
+  const handleRoleChange = (e) => setForm({ ...form, role: e.target.value });
+
+  const handleGoogleSignup = async () => {
+    setIsLoading(true);
+    const { error } = await supabase.auth.signInWithOAuth({ provider: 'google' });
+    if (error) alert(error.message);
+    setIsLoading(false);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
+    // Basic validation
     if (form.password !== form.confirm) {
       alert("Passwords do not match!");
       return;
     }
-
     if (form.password.length < 6) {
       alert("Password must be at least 6 characters long!");
       return;
     }
-
+    if (!form.role) {
+      alert("Please select a role.");
+      return;
+    }
     setIsLoading(true);
 
-    // Simulate API call delay
-    await new Promise(resolve => setTimeout(resolve, 1500));
+    // Supabase signup
+    const { data, error } = await supabase.auth.signUp({ email: form.email, password: form.password });
+    if (error) {
+      alert(error.message);
+      setIsLoading(false);
+      return;
+    }
 
-    // Store user session
+    // Only insert to custom table if user was created
+    if (data?.user) {
+      await supabase
+        .from('users')
+        .insert([
+          {
+            id: data.user.id, // use auth user's uuid
+            name: form.username,
+            email: form.email,
+            role: form.role, // 'driver', 'owner', or 'admin'
+            status: 'active'
+          }
+        ]);
+    }
+
+    // Store user session locally (optional, usually handled by Supabase)
     localStorage.setItem('userSession', JSON.stringify({
       username: form.email,
       role: form.role,
@@ -48,7 +69,6 @@ export default function Signup() {
       loginTime: new Date().toISOString()
     }));
 
-    // Show success message
     alert(`Welcome ${form.username}! Your ${form.role === "owner" ? "Space Owner" : "Driver"} account has been created successfully!`);
 
     // Redirect based on role
@@ -57,12 +77,7 @@ export default function Signup() {
     } else if (form.role === 'owner') {
       navigate('/dashboard/owner');
     }
-
     setIsLoading(false);
-  };
-
-  const handleGoogleSignup = () => {
-    alert("Google Sign Up coming soon!");
   };
 
   return (
@@ -94,6 +109,7 @@ export default function Signup() {
               className="google-btn"
               type="button"
               onClick={handleGoogleSignup}
+              disabled={isLoading}
             >
               <img
                 src="src/assets/Google-icon.jpeg"
@@ -115,6 +131,7 @@ export default function Signup() {
                   value="driver"
                   checked={form.role === "driver"}
                   onChange={handleRoleChange}
+                  disabled={isLoading}
                 />
                 Driver
               </label>
@@ -125,6 +142,7 @@ export default function Signup() {
                   value="owner"
                   checked={form.role === "owner"}
                   onChange={handleRoleChange}
+                  disabled={isLoading}
                 />
                 Space Owner
               </label>
@@ -196,7 +214,7 @@ export default function Signup() {
                 />
               </div>
               <button type="submit" className="btn2" disabled={isLoading}>
-                {isLoading ? 'Creating Account...' : 'Sign Up'}
+                {isLoading ? "Signing up..." : "Sign Up"}
               </button>
             </form>
             <p className="signup-links">

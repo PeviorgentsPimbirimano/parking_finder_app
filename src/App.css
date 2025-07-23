@@ -6,3 +6,88 @@
     font-family: "Barlow Condensed", sans-serif;
     font-weight: 400;
 }
+body {
+  background-color: rgb(5, 5, 50);
+  transition: background-color 0.1s ease-in-out;
+}
+
+body.body-animated {
+  background-color: white;
+}
+
+.loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.loading .logo {
+  border-radius: 50px;
+  background-color: white;
+  text-align: center;
+  height: 90px;
+  padding-left: 20px;
+  box-shadow: -1px 1px 10px rgb(5, 5, 50);
+  color: rgb(5, 5, 50);
+  width: 225px;
+}
+
+.loading .logo span {
+  background-color: rgb(5, 5, 50);
+  border-radius: 1000px;
+  color: white;
+  padding: 11px;
+  text-align: center;
+}
+
+.loading .logo h1 {
+  font-size: 70px;
+  font-weight: 500;
+}
+
+.loading .loading-text {
+  font-size: 30px;
+  margin-top: 15px;
+  color: gray;
+  transition: color 0.5s ease-in-out;
+}
+
+body.body-animated .loading .loading-text {
+  color: rgb(5, 5, 50);
+}
+
+@keyframes toggleOn {
+  0% {
+    background-color: rgb(5, 5, 50);
+    color: white;
+    transform: scale(1);
+  }
+  100% {
+    background-color: white;
+    color: rgb(5, 5, 50);
+    transform: scale(1.05);
+  }
+}
+
+@keyframes spanFlash {
+  0% {
+    background-color: white;
+    color: rgb(5, 5, 50);
+  }
+  100% {
+    background-color: rgb(5, 5, 50);
+    color: white;
+  }
+}
+
+.logo.animate {
+  animation: toggleOn 0.5s ease-in-out forwards;
+  animation-delay: 0.5s;
+}
+
+.logo.animate span {
+  animation: spanFlash 0.5s ease-in-out forwards;
+  animation-delay: 0.5s;
+}

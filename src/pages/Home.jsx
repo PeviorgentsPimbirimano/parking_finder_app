@@ -6,6 +6,10 @@ import Features from "../components/Features";
 import PrimarySection from "../components/PrimarySection";
 import SecondarySection from "../components/SecondarySection";
 import Footer from "../components/Footer";
+import HowItWorks from "../components/HowItWorks";
+import Testimonials from "../components/Testimonials";
+import LiveActivity from "../components/LiveActivity";
+import Newsletter from "../components/Newsletter";
 
 export default function Home() {
   return (
@@ -13,8 +17,12 @@ export default function Home() {
       <Header />
       <Hero />
       <Features />
+      <HowItWorks />
       <PrimarySection />
+      <Testimonials />
       <SecondarySection />
+      <LiveActivity />
+      <Newsletter />
       <Footer />
     </div>
   );

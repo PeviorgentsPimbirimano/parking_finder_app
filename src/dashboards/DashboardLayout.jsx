@@ -2,7 +2,7 @@ import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Home, LogOut, MapPin, Calendar, CreditCard, Car, User, Settings, Users, BarChart3, AlertTriangle } from 'lucide-react';
 
-const DashboardLayout = ({ children, userType }) => {
+const DashboardLayout = ({ children, userType, activeTab, setActiveTab }) => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -10,8 +10,14 @@ const DashboardLayout = ({ children, userType }) => {
       localStorage.removeItem('adminSession');
       navigate('/admin/login');
     } else {
-      // Handle regular user logout
+      localStorage.removeItem('userSession');
       navigate('/login');
+    }
+  };
+
+  const handleTabClick = (tabName) => {
+    if (setActiveTab) {
+      setActiveTab(tabName);
     }
   };
 
@@ -20,84 +26,135 @@ const DashboardLayout = ({ children, userType }) => {
       case 'driver':
         return (
           <>
-            <Link to="/dashboard/driver" className="nav-link">
+            <button 
+              onClick={() => handleTabClick('search')} 
+              className={`nav-link ${activeTab === 'search' ? 'active' : ''}`}
+            >
               <MapPin size={20} />
               Find Parking
-            </Link>
-            <Link to="/dashboard/driver" className="nav-link">
+            </button>
+            <button 
+              onClick={() => handleTabClick('bookings')} 
+              className={`nav-link ${activeTab === 'bookings' ? 'active' : ''}`}
+            >
               <Calendar size={20} />
               My Bookings
-            </Link>
-            <Link to="/dashboard/driver" className="nav-link">
+            </button>
+            <button 
+              onClick={() => handleTabClick('payments')} 
+              className={`nav-link ${activeTab === 'payments' ? 'active' : ''}`}
+            >
               <CreditCard size={20} />
               Payments
-            </Link>
-            <Link to="/dashboard/driver" className="nav-link">
+            </button>
+            <button 
+              onClick={() => handleTabClick('vehicles')} 
+              className={`nav-link ${activeTab === 'vehicles' ? 'active' : ''}`}
+            >
               <Car size={20} />
               My Vehicles
-            </Link>
-            <Link to="/dashboard/driver" className="nav-link">
+            </button>
+            <button 
+              onClick={() => handleTabClick('profile')} 
+              className={`nav-link ${activeTab === 'profile' ? 'active' : ''}`}
+            >
               <User size={20} />
               Profile
-            </Link>
+            </button>
           </>
         );
       case 'owner':
         return (
           <>
-            <Link to="/dashboard/owner" className="nav-link">
+            <button 
+              onClick={() => handleTabClick('spaces')} 
+              className={`nav-link ${activeTab === 'spaces' ? 'active' : ''}`}
+            >
               <MapPin size={20} />
               My Spaces
-            </Link>
-            <Link to="/dashboard/owner" className="nav-link">
+            </button>
+            <button 
+              onClick={() => handleTabClick('bookings')} 
+              className={`nav-link ${activeTab === 'bookings' ? 'active' : ''}`}
+            >
               <Calendar size={20} />
               Bookings
-            </Link>
-            <Link to="/dashboard/owner" className="nav-link">
+            </button>
+            <button 
+              onClick={() => handleTabClick('earnings')} 
+              className={`nav-link ${activeTab === 'earnings' ? 'active' : ''}`}
+            >
               <CreditCard size={20} />
               Earnings
-            </Link>
-            <Link to="/dashboard/owner" className="nav-link">
+            </button>
+            <button 
+              onClick={() => handleTabClick('analytics')} 
+              className={`nav-link ${activeTab === 'analytics' ? 'active' : ''}`}
+            >
               <BarChart3 size={20} />
               Analytics
-            </Link>
-            <Link to="/dashboard/owner" className="nav-link">
+            </button>
+            <button 
+              onClick={() => handleTabClick('profile')} 
+              className={`nav-link ${activeTab === 'profile' ? 'active' : ''}`}
+            >
               <User size={20} />
               Profile
-            </Link>
+            </button>
           </>
         );
       case 'admin':
         return (
           <>
-            <Link to="/dashboard/admin" className="nav-link">
+            <button 
+              onClick={() => handleTabClick('overview')} 
+              className={`nav-link ${activeTab === 'overview' ? 'active' : ''}`}
+            >
               <BarChart3 size={20} />
               Overview
-            </Link>
-            <Link to="/dashboard/admin" className="nav-link">
+            </button>
+            <button 
+              onClick={() => handleTabClick('users')} 
+              className={`nav-link ${activeTab === 'users' ? 'active' : ''}`}
+            >
               <Users size={20} />
               Users
-            </Link>
-            <Link to="/dashboard/admin" className="nav-link">
+            </button>
+            <button 
+              onClick={() => handleTabClick('spaces')} 
+              className={`nav-link ${activeTab === 'spaces' ? 'active' : ''}`}
+            >
               <MapPin size={20} />
               Parking Spaces
-            </Link>
-            <Link to="/dashboard/admin" className="nav-link">
+            </button>
+            <button 
+              onClick={() => handleTabClick('bookings')} 
+              className={`nav-link ${activeTab === 'bookings' ? 'active' : ''}`}
+            >
               <Calendar size={20} />
               Bookings
-            </Link>
-            <Link to="/dashboard/admin" className="nav-link">
+            </button>
+            <button 
+              onClick={() => handleTabClick('payments')} 
+              className={`nav-link ${activeTab === 'payments' ? 'active' : ''}`}
+            >
               <CreditCard size={20} />
               Payments
-            </Link>
-            <Link to="/dashboard/admin" className="nav-link">
+            </button>
+            <button 
+              onClick={() => handleTabClick('reports')} 
+              className={`nav-link ${activeTab === 'reports' ? 'active' : ''}`}
+            >
               <AlertTriangle size={20} />
               Reports
-            </Link>
-            <Link to="/dashboard/admin" className="nav-link">
+            </button>
+            <button 
+              onClick={() => handleTabClick('settings')} 
+              className={`nav-link ${activeTab === 'settings' ? 'active' : ''}`}
+            >
               <Settings size={20} />
               Settings
-            </Link>
+            </button>
           </>
         );
       default:
@@ -110,11 +167,7 @@ const DashboardLayout = ({ children, userType }) => {
       <nav className="dashboard-nav">
         <div className="nav-header">
           <Link to="/" className="nav-logo">
-            <div className="logo">
-              <h1>
-                Spot <span>On</span>
-              </h1>
-            </div>
+            <h1>Spot <span>On</span></h1>
           </Link>
         </div>
         <div className="nav-links">

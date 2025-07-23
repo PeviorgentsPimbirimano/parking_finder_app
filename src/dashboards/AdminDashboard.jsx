@@ -656,7 +656,7 @@ const AdminDashboard = () => {
   );
 
   return (
-    <DashboardLayout userType="admin">
+    <DashboardLayout userType="admin" activeTab={activeTab} setActiveTab={setActiveTab}>
       <div className="dashboard">
         <div className="dashboard-header">
           <h1>Admin Dashboard</h1>
