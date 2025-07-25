@@ -2,9 +2,9 @@ import React from "react";
 import { Link } from "react-router-dom";
 import Footer from "../components/Footer";
 import "../css/About.css"; 
-import team1 from "../assets/team1.jpeg";
-import team2 from "../assets/team2.jpeg";
-import team3 from "../assets/team3.jpeg";
+import team1 from "/images/team1.jpeg";
+import team2 from "/images/team2.jpeg";
+import team3 from "/images/team3.jpeg";
 
 export default function About() {
   return (
