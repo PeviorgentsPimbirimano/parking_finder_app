@@ -47,13 +47,18 @@ export default function App() {
       const { data } = await supabase.auth.getUser();
       if (data?.user) {
         setUser(data.user);
-        const { data: userData } = await supabase
+        const { data: userData, error } = await supabase
           .from('users')
           .select('role')
           .eq('id', data.user.id)
-          .maybeSingle();
+          .single();
 
-        setRole(userData?.role);
+        if (error) {
+          console.error('Role fetch error:', error.message);
+        } else {
+          setRole(userData?.role);
+        }
+
       } else {
         setUser(null);
         setRole(null);

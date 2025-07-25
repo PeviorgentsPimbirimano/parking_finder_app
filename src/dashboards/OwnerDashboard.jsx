@@ -17,14 +17,22 @@ import {
   MessageCircle,
   Clock
 } from 'lucide-react';
-import { GoogleMap, LoadScript, Marker, InfoWindow } from '@react-google-maps/api';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, BarChart, Bar, PieChart, Pie, Cell } from 'recharts';
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import BookingMap from '../components/BookingMap';
+import { supabase } from '../supabaseClient';
+import L from 'leaflet';
 import toast, { Toaster } from 'react-hot-toast';
 import DashboardLayout from './DashboardLayout';
 import '../css/Dashboard.css';
+import markerIconPng from 'leaflet/dist/images/marker-icon.png';
+import markerShadowPng from 'leaflet/dist/images/marker-shadow.png';
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://api.spoton-parking.com';
-const GOOGLE_MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY || 'YOUR_API_KEY';
+// const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://api.spoton-parking.com';
+delete L.Icon.Default.prototype._getIconUrl;
+L.Icon.Default.mergeOptions({
+  iconUrl: markerIconPng,
+  shadowUrl: markerShadowPng,
+});
 
 const OwnerDashboard = () => {
   const [activeTab, setActiveTab] = useState('listings');
@@ -562,43 +570,43 @@ const OwnerDashboard = () => {
           </div>
         ))}
       </div>
-
-      {/* Map Modal */}
+      {/* LEAFLET MAP MODAL */}
       {selectedListing && selectedListing.lat && selectedListing.lng && (
         <div className="modal-overlay">
           <div className="modal map-modal">
             <div className="modal-header">
-              <h3>{selectedListing.title}</h3>
+              <h3>Listing Location</h3>
               <button className="close-btn" onClick={() => setSelectedListing(null)}>
                 <X size={20} />
               </button>
             </div>
             <div className="modal-body">
-              <LoadScript googleMapsApiKey={GOOGLE_MAPS_API_KEY}>
-                <GoogleMap
-                  mapContainerStyle={{ width: '100%', height: '400px' }}
-                  center={{ lat: selectedListing.lat, lng: selectedListing.lng }}
+              <div style={mapContainerStyle}>
+                <MapContainer
+                  center={[Number(selectedListing.lat), Number(selectedListing.lng)]}
                   zoom={15}
+                  scrollWheelZoom={false}
+                  style={{ height: '100%', width: '100%' }}
                 >
-                  <Marker
-                    position={{ lat: selectedListing.lat, lng: selectedListing.lng }}
+                  <TileLayer
+                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                    attribution="&copy; OpenStreetMap contributors"
                   />
-                  <InfoWindow
-                    position={{ lat: selectedListing.lat, lng: selectedListing.lng }}
-                  >
-                    <div className="map-info-window">
-                      <h4>{selectedListing.title}</h4>
-                      <p>{selectedListing.address}</p>
-                      <p className="price">${selectedListing.pricePerHour}/hr</p>
-                    </div>
-                  </InfoWindow>
-                </GoogleMap>
-              </LoadScript>
+                  <Marker position={[Number(selectedListing.lat), Number(selectedListing.lng)]}>
+                    <Popup>
+                      <div className="map-info-window">
+                        <h4>{selectedListing.title}</h4>
+                        <p>{selectedListing.address}</p>
+                        <p className="price">${selectedListing.pricePerHour}/hr</p>
+                      </div>
+                    </Popup>
+                  </Marker>
+                </MapContainer>
+              </div>
             </div>
           </div>
         </div>
       )}
-
       {/* Add/Edit Listing Modal */}
       {showAddListing && (
         <div className="modal-overlay">

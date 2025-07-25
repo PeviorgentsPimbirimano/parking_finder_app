@@ -18,15 +18,58 @@ import {
   Phone,
   Mail
 } from 'lucide-react';
-import { GoogleMap, LoadScript, Marker, InfoWindow } from '@react-google-maps/api';
 import toast, { Toaster } from 'react-hot-toast';
 import DashboardLayout from './DashboardLayout';
 import '../css/Dashboard.css';
+import BookingMap from '../components/BookingMap';
+import { supabase } from '../supabaseClient'; // adjust path if needed
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://api.spoton-parking.com';
-const GOOGLE_MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY || 'YOUR_API_KEY';
+// const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5173/api/bookings/driver/driver_123';
+
+const fetchUserRole = async () => {
+  // Step 1: Get authenticated user
+  const {
+    data: { user },
+    error: userError,
+  } = await supabase.auth.getUser();
+
+  if (userError) {
+    console.error('Error fetching authenticated user:', userError.message);
+    return;
+  }
+
+  if (!user || !user.id) {
+    console.error('User or user ID is missing.');
+    return;
+  }
+
+  // Step 2: Fetch role from the users table
+  const { data: userData, error } = await supabase
+    .from('users')
+    .select('role')
+    .eq('id', user.id)
+    .limit(1)
+    .maybeSingle(); // Will return null if no row is found
+
+  if (error) {
+    console.error('Role fetch error:', error.message);
+    return;
+  }
+
+  if (!userData) {
+    console.warn('No user data found for user ID:', user.id);
+    return;
+  }
+
+  // Step 3: Set role to state
+  setUserRole(userData.role);
+};
+
+
 
 const DriverDashboard = () => {
+  
   const [activeTab, setActiveTab] = useState('search');
   const [loading, setLoading] = useState(false);
   const [driverId] = useState(localStorage.getItem('driverId') || 'driver_123');
@@ -77,10 +120,6 @@ const DriverDashboard = () => {
     height: '400px'
   };
 
-  const defaultCenter = {
-    lat: 40.7128,
-    lng: -74.0060
-  };
 
   // API Functions
   const searchParkingSpots = async () => {
@@ -541,29 +580,7 @@ const DriverDashboard = () => {
               </button>
             </div>
             <div className="modal-body">
-              <div className="booking-spot-info">
-                <h4>{selectedSpot.name}</h4>
-                <p>{selectedSpot.address}</p>
-                <p className="price">${selectedSpot.price}/day</p>
-              </div>
-              <div className="form-group">
-                <label htmlFor="startTime">Start Time</label>
-                <input
-                  type="datetime-local"
-                  id="startTime"
-                  value={bookingDetails.startTime}
-                  onChange={(e) => setBookingDetails({ ...bookingDetails, startTime: e.target.value })}
-                />
-              </div>
-              <div className="form-group">
-                <label htmlFor="endTime">End Time</label>
-                <input
-                  type="datetime-local"
-                  id="endTime"
-                  value={bookingDetails.endTime}
-                  onChange={(e) => setBookingDetails({ ...bookingDetails, endTime: e.target.value })}
-                />
-              </div>
+              <BookingMap booking={selectedBooking} />
             </div>
             <div className="modal-footer">
               <button className="btn-secondary" onClick={() => setShowBookingModal(false)}>
@@ -629,7 +646,7 @@ const DriverDashboard = () => {
         </div>
       </div>
 
-      {/* Map Modal */}
+       {/* Leaflet Map Modal */}
       {selectedBooking && selectedBooking.lat && selectedBooking.lng && (
         <div className="modal-overlay">
           <div className="modal map-modal">
@@ -640,33 +657,36 @@ const DriverDashboard = () => {
               </button>
             </div>
             <div className="modal-body">
-              <LoadScript googleMapsApiKey={GOOGLE_MAPS_API_KEY}>
-                <GoogleMap
-                  mapContainerStyle={mapContainerStyle}
-                  center={{ lat: selectedBooking.lat, lng: selectedBooking.lng }}
+              <div style={mapContainerStyle}>
+                <MapContainer
+                  center={[selectedBooking.lat, selectedBooking.lng]}
                   zoom={15}
+                  scrollWheelZoom={false}
+                  style={{ height: '100%', width: '100%' }}
                 >
-                  <Marker
-                    position={{ lat: selectedBooking.lat, lng: selectedBooking.lng }}
+                  <TileLayer
+                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                    attribution="&copy; OpenStreetMap contributors"
                   />
-                  <InfoWindow
-                    position={{ lat: selectedBooking.lat, lng: selectedBooking.lng }}
-                  >
-                    <div className="map-info-window">
-                      <h4>{selectedBooking.location}</h4>
-                      <p>{selectedBooking.date}</p>
-                      <p>{selectedBooking.time}</p>
-                      <p className="price">${selectedBooking.price}</p>
-                    </div>
-                  </InfoWindow>
-                </GoogleMap>
-              </LoadScript>
+                  <Marker position={[selectedBooking.lat, selectedBooking.lng]}>
+                    <Popup>
+                      <div className="map-info-window">
+                        <h4>{selectedBooking.location}</h4>
+                        <p>{selectedBooking.date}</p>
+                        <p>{selectedBooking.time}</p>
+                        <p className="price">${selectedBooking.price}</p>
+                      </div>
+                    </Popup>
+                  </Marker>
+                </MapContainer>
+              </div>
             </div>
           </div>
         </div>
       )}
     </div>
   );
+
 
   const renderPaymentsTab = () => (
     <div className="tab-content">
